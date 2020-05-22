@@ -1,4 +1,4 @@
-package com.example.ezcocktail;
+package com.example.thecocktailapp;
 
 import org.junit.Test;
 
