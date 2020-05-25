@@ -14,6 +14,8 @@ import android.view.MenuItem;
 
 import com.google.android.material.navigation.NavigationView;
 
+import retrofit2.Retrofit;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle actionBarDrawerToggle;
@@ -21,6 +23,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     NavigationView navigationView;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
+    //private Retrofit retrofit;
+    //private DrinksDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.container_fragment, new SearchRecipeFragment());
         fragmentTransaction.commit();
+
 
 
     }
@@ -97,6 +102,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      *         });
      */
 
-
+    /**
+     * For database
+     *
+     * //Is on the main thread not a good idea!!!
+     * Creates the database
+     *         database = Room.databaseBuilder(getApplicationContext(), DrinksDatabase.class, "drinksDB")
+     *                 .allowMainThreadQueries()
+     *                 .build();
+     *
+     * create entity
+     * DrinkEntity drinkEntity = new DrinkEntity();
+     *
+     * set varibles for entity
+     *                 drinkEntity.setId(Integer.parseInt(jsonResponse.getDrinks().get(0).getIdDrink()));
+     *                 drinkEntity.setName(jsonResponse.getDrinks().get(0).getStrDrink());
+     *                 drinkEntity.setImageURL(jsonResponse.getDrinks().get(0).getStrDrinkThumb());
+     *
+     *Create entity to be deleted
+     *                 DrinkEntity entity = new DrinkEntity();
+     *                 entity.setId(Integer.parseInt(jsonResponse.getDrinks().get(0).getIdDrink()));
+     *                 database.drinkEntityDao().deleteDrink(entity);
+     *
+     *                 get list of all drinks favored
+     *                 List<DrinkEntity> drinkEntityList = database.drinkEntityDao().getDrinks();
+     *
+     */
 
 }
