@@ -70,4 +70,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         return true;
     }
+
+    /**
+     * Code of how Retrofit can access the database
+     * retrofit = new Retrofit.Builder()
+     *                 .baseUrl("https://www.thecocktaildb.com/api/json/v1/1/")
+     *                 .addConverterFactory(GsonConverterFactory.create())
+     *                 .build();
+     *
+     *         RequestInterface requestInterface = retrofit.create(RequestInterface.class);
+     *         Call<JSONResponse> call = requestInterface.searchByIngredient("lemon");
+     *         call.enqueue(new Callback<JSONResponse>() {
+     *             @Override
+     *             public void onResponse(Call<JSONResponse> call, Response<JSONResponse> response) {
+     *                 JSONResponse jsonResponse = response.body();
+     *                 Log.i("Information", response.code()+"");
+     *
+     *                 textView.setText(jsonResponse.getDrinks().get(0).getStrDrink());
+     *             }
+     *
+     *             @Override
+     *             public void onFailure(Call<JSONResponse> call, Throwable t) {
+     *                 textView.setText(t.getMessage());
+     *
+     *             }
+     *         });
+     */
+
+
+
 }
