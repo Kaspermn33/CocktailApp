@@ -6,8 +6,8 @@ import retrofit2.http.Query;
 
 public interface RequestInterface {
 
-    @GET("lookup.php?i=11007")
-    Call<JSONResponse> getJSON();
+    @GET("lookup.php")
+    Call<JSONResponse> getFavorite(@Query("i") String favoriteString);
 
     @GET("search.php")
     Call<JSONResponse> searchByName(@Query("s") String searchString);
