@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,7 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 public class SearchRecipeFragment extends Fragment {
 RecyclerView recyclerView;
 
-String[] cocktails = {"Maragrita", "Old Fashioned", "Mojito", "Strawberry Daquiri", "White Russian", "Mai Tai",
+
+String[] cocktails = {"Margarita", "Old Fashioned", "Mojito", "Strawberry Daiquiri", "White Russian", "Mai Tai",
 "Gin & Tonic", "Other drink", "Other drink", "Other drink", "Other drink", "Other drink", "Other drink", "Other drink", "Other drink", "Other drink", "Other drink", "Other drink", "Other drink", "Other drink", "Other drink", "Other drink", "Other drink", "Other drink", "Other drink", "Other drink", "Other drink", "Other drink"};
 
     @Nullable
@@ -27,9 +30,18 @@ String[] cocktails = {"Maragrita", "Old Fashioned", "Mojito", "Strawberry Daquir
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Button searchButton = getView().findViewById(R.id.search_button);
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText searchField = getView().findViewById(R.id.searchField);
+                String searchValue = searchField.getText().toString();
+                CocktailAdapter cocktailAdapter = new CocktailAdapter(cocktails);
+                recyclerView.setAdapter(cocktailAdapter);
+            }
+        });
+
         recyclerView = getView().findViewById(R.id.recyclerview);
-        CocktailAdapter cocktailAdapter = new CocktailAdapter(cocktails);
-        recyclerView.setAdapter(cocktailAdapter);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }
