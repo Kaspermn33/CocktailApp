@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import com.google.android.material.navigation.NavigationView;
 
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     DrawerLayout drawerLayout;
@@ -23,6 +24,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     NavigationView navigationView;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
+
+    public static Retrofit retrofit;
+    public static RequestInterface requestInterface;
+
     //private Retrofit retrofit;
     //private DrinksDatabase database;
 
@@ -47,6 +52,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentTransaction.add(R.id.container_fragment, new SearchRecipeFragment());
         fragmentTransaction.commit();
 
+        retrofit = new Retrofit.Builder()
+                .baseUrl("https://www.thecocktaildb.com/api/json/v1/1/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        requestInterface = retrofit.create(RequestInterface.class);
 
 
     }
