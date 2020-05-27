@@ -67,7 +67,6 @@ public class SearchIngredientFragment extends Fragment {
                         Log.i("Error", t.getMessage());
                         recyclerView.removeAllViews();
                         CocktailAdapter cocktailAdapter = new CocktailAdapter(new Drink[0], getContext());
-                        cocktailAdapter.set
                         recyclerView.setAdapter(cocktailAdapter);
                     }
                 });

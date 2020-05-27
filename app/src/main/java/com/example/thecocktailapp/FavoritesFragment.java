@@ -19,7 +19,7 @@ public class FavoritesFragment extends Fragment {
     RecyclerView recyclerView;
     private Drink[] drinks;
 
-    private DrinksDatabase database;
+
     private List<DrinkEntity> savedDrinks;
 
 
@@ -32,18 +32,12 @@ public class FavoritesFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-      
-        Bundle bundle = getArguments();
-        Drink cocktail = (Drink) bundle.getSerializable("cocktail");
-      
-
         super.onViewCreated(view, savedInstanceState);
 
         recyclerView = getView().findViewById(R.id.favorite_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        database = Room.databaseBuilder(getContext(), DrinksDatabase.class, "drinksDB")
-                .build();
+
 
         GetDrinksRunnable getDrinksRunnable = new GetDrinksRunnable();
         new Thread(getDrinksRunnable).start();
@@ -52,7 +46,7 @@ public class FavoritesFragment extends Fragment {
     public class GetDrinksRunnable implements Runnable {
         @Override
         public void run() {
-            savedDrinks = database.drinkEntityDao().getDrinks();
+            savedDrinks = MainActivity.database.drinkEntityDao().getDrinks();
 
             //For testing purposes
             //Adds an DrinkEntity to the database if there are none
@@ -61,8 +55,8 @@ public class FavoritesFragment extends Fragment {
                 de.setId(11007);
                 de.setName("Margarita");
                 de.setImageURL("https://www.thecocktaildb.com/images/media/drink/5noda61589575158.jpg");
-                database.drinkEntityDao().addDrink(de);
-                savedDrinks = database.drinkEntityDao().getDrinks();
+                MainActivity.database.drinkEntityDao().addDrink(de);
+                savedDrinks = MainActivity.database.drinkEntityDao().getDrinks();
             }
 
             drinks = new Drink[savedDrinks.size()];

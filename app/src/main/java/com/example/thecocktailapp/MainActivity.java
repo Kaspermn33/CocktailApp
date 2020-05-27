@@ -8,6 +8,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.room.Room;
 
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
 
+    public static DrinksDatabase database;
     public static Retrofit retrofit;
     public static RequestInterface requestInterface;
 
@@ -58,6 +60,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .build();
 
         requestInterface = retrofit.create(RequestInterface.class);
+
+        database = Room.databaseBuilder(this, DrinksDatabase.class, "drinksDB")
+                .build();
 
 
     }
