@@ -7,6 +7,12 @@ import java.io.Serializable;
 
 public class Drink implements Serializable {
 
+    public Drink(String idDrink, String strDrink, String strDrinkThumb) {
+        this.idDrink = idDrink;
+        this.strDrink = strDrink;
+        this.strDrinkThumb = strDrinkThumb;
+    }
+
     @SerializedName("idDrink")
     @Expose
     private String idDrink;
