@@ -7,17 +7,40 @@
     android:layout_height="match_parent"
     android:id="@+id/search_ingredients">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="144dp"
-        android:layout_marginTop="356dp"
-        android:layout_marginEnd="145dp"
-        android:layout_marginBottom="356dp"
-        android:text="Search ingredients!"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/ingredientRecyclerview"
+        android:layout_width="408dp"
+        android:layout_height="505dp"
+        android:layout_marginTop="150dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/ingredientSearchField"
+        android:layout_width="280dp"
+        android:layout_height="62dp"
+        android:hint="Search for an ingredient in a drink"
+        android:lines="1"
+        android:maxLines="1"
+        android:singleLine="true"
+        app:layout_constraintBottom_toTopOf="@+id/ingredientRecyclerview"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.9" />
+
+    <Button
+        android:id="@+id/ingredient_search_button"
+        android:layout_width="97dp"
+        android:layout_height="59dp"
+        android:layout_marginTop="148dp"
+        android:text="@android:string/search_go"
+        app:layout_constraintBottom_toTopOf="@+id/ingredientRecyclerview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.97"
+        app:layout_constraintStart_toEndOf="@+id/ingredientSearchField"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.157" />
 </androidx.constraintlayout.widget.ConstraintLayout>

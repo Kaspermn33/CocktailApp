@@ -5,6 +5,12 @@ import com.google.gson.annotations.SerializedName;
 
 public class Drink {
 
+    public Drink(String idDrink, String strDrink, String strDrinkThumb) {
+        this.idDrink = idDrink;
+        this.strDrink = strDrink;
+        this.strDrinkThumb = strDrinkThumb;
+    }
+
     @SerializedName("idDrink")
     @Expose
     private String idDrink;
