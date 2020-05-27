@@ -32,6 +32,11 @@ public class FavoritesFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+      
+        Bundle bundle = getArguments();
+        Drink cocktail = (Drink) bundle.getSerializable("cocktail");
+      
+
         super.onViewCreated(view, savedInstanceState);
 
         recyclerView = getView().findViewById(R.id.favorite_recyclerview);
@@ -42,12 +47,6 @@ public class FavoritesFragment extends Fragment {
 
         GetDrinksRunnable getDrinksRunnable = new GetDrinksRunnable();
         new Thread(getDrinksRunnable).start();
-
-
-
-
-
-
     }
 
     public class GetDrinksRunnable implements Runnable {

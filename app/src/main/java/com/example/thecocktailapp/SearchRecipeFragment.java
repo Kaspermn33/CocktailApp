@@ -1,5 +1,6 @@
 package com.example.thecocktailapp;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,9 +25,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class SearchRecipeFragment extends Fragment {
     RecyclerView recyclerView;
-
     Drink[] cocktails;
-
 
     @Nullable
     @Override
@@ -42,9 +41,6 @@ public class SearchRecipeFragment extends Fragment {
 
         recyclerView = getView().findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-
-
 
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,7 +74,4 @@ public class SearchRecipeFragment extends Fragment {
             }
         });
     }
-
-
-
 }

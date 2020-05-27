@@ -3,7 +3,9 @@ package com.example.thecocktailapp;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Drink {
+import java.io.Serializable;
+
+public class Drink implements Serializable {
 
     public Drink(String idDrink, String strDrink, String strDrinkThumb) {
         this.idDrink = idDrink;
