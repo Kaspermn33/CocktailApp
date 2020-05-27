@@ -89,12 +89,8 @@ public class DisplayCocktailFragment extends Fragment {
                         Log.i("StringBuilder", "Both are null");
                         break;
                     }
-                    if (measures[i].contains("\n")) {
-                        Log.i("Info", "It contains \n");
-                    }
 
-
-                    //Some null data is saved as \n 
+                    //Some null data is saved as \n
                     if (measures[i] != null && !measures[i].contains("\n")) {
                         Log.i("StringBuilder", "Appending measure " + measures[i]);
                         sb.append(measures[i] + "\t");
