@@ -48,18 +48,6 @@ public class FavoritesFragment extends Fragment {
         public void run() {
             savedDrinks = MainActivity.database.drinkEntityDao().getDrinks();
 
-            //For testing purposes
-            //Adds an DrinkEntity to the database if there are none
-            /**
-            if (savedDrinks.size() == 0) {
-                DrinkEntity de = new DrinkEntity();
-                de.setId(11007);
-                de.setName("Margarita");
-                de.setImageURL("https://www.thecocktaildb.com/images/media/drink/5noda61589575158.jpg");
-                MainActivity.database.drinkEntityDao().addDrink(de);
-                savedDrinks = MainActivity.database.drinkEntityDao().getDrinks();
-            }*/
-
             drinks = new Drink[savedDrinks.size()];
 
 
