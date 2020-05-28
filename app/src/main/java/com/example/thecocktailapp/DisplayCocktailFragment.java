@@ -30,6 +30,7 @@ public class DisplayCocktailFragment extends Fragment {
     private ScrollView scrollView;
     private TextView textScrollview;
     private Button favoriteButton;
+    private boolean isFavorite = false;
 
     @Nullable
     @Override
@@ -50,6 +51,9 @@ public class DisplayCocktailFragment extends Fragment {
         Bundle bundle = getArguments();
         final Drink cocktail = (Drink) bundle.getSerializable("cocktail");
         System.out.println("cocktail is now on the display");
+
+        CheckIfFavoriteRunnable checkIfFavoriteRunnable = new CheckIfFavoriteRunnable(cocktail);
+        new Thread(checkIfFavoriteRunnable).start();
 
         favoriteButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,6 +87,7 @@ public class DisplayCocktailFragment extends Fragment {
 
 
                 StringBuilder sb = new StringBuilder();
+                sb.append(drink.getStrGlass() + "\n");
 
                 for (int i = 0; i < 15; i++) {
                     if (measures[i] == null && ingredients[i] == null) {
@@ -151,20 +156,72 @@ public class DisplayCocktailFragment extends Fragment {
 
         @Override
         public void run() {
-
-            List<DrinkEntity> drinks = MainActivity.database.drinkEntityDao().getDrinks();
-
-            for (DrinkEntity savedDrink : drinks) {
-                if (Integer.parseInt(drink.getIdDrink()) == savedDrink.getId()) {
-                    return;
-                }
-            }
-
             DrinkEntity de = new DrinkEntity();
             de.setId(Integer.parseInt(drink.getIdDrink()));
             de.setName(drink.getStrDrink());
             de.setImageURL(drink.getStrDrinkThumb());
-            MainActivity.database.drinkEntityDao().addDrink(de);
+
+            if (!isFavorite) {
+                List<DrinkEntity> drinks = MainActivity.database.drinkEntityDao().getDrinks();
+
+                for (DrinkEntity savedDrink : drinks) {
+                    if (Integer.parseInt(drink.getIdDrink()) == savedDrink.getId()) {
+                        return;
+                    }
+                }
+
+
+                MainActivity.database.drinkEntityDao().addDrink(de);
+                isFavorite = true;
+                favoriteButton.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        favoriteButton.setText("Unfavorite");
+                    }
+                });
+            } else {
+
+                MainActivity.database.drinkEntityDao().deleteDrink(de);
+                isFavorite = false;
+                favoriteButton.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        favoriteButton.setText("Favorite");
+                    }
+                });
+
+            }
+
+
         }
     }
+
+    public class CheckIfFavoriteRunnable implements Runnable {
+        private Drink drink;
+
+        public CheckIfFavoriteRunnable(Drink drink) {
+            this.drink = drink;
+        }
+
+        @Override
+        public void run() {
+
+            List<DrinkEntity> drinks = MainActivity.database.drinkEntityDao().getDrinks();
+
+            for (DrinkEntity currentDrink : drinks) {
+                if (currentDrink.getId() == Integer.parseInt(drink.getIdDrink())) {
+                    isFavorite = true;
+                    favoriteButton.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            favoriteButton.setText("Unfavorite");
+                        }
+                    });
+                    return;
+                }
+            }
+
+        }
+    }
+
 }
