@@ -10,8 +10,11 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.room.Room;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import com.google.android.material.navigation.NavigationView;
 
@@ -92,57 +95,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-    /**
-     * Code of how Retrofit can access the database
-     * retrofit = new Retrofit.Builder()
-     *                 .baseUrl("https://www.thecocktaildb.com/api/json/v1/1/")
-     *                 .addConverterFactory(GsonConverterFactory.create())
-     *                 .build();
-     *
-     *         RequestInterface requestInterface = retrofit.create(RequestInterface.class);
-     *         Call<JSONResponse> call = requestInterface.searchByIngredient("lemon");
-     *         call.enqueue(new Callback<JSONResponse>() {
-     *             @Override
-     *             public void onResponse(Call<JSONResponse> call, Response<JSONResponse> response) {
-     *                 JSONResponse jsonResponse = response.body();
-     *                 Log.i("Information", response.code()+"");
-     *
-     *                 textView.setText(jsonResponse.getDrinks().get(0).getStrDrink());
-     *             }
-     *
-     *             @Override
-     *             public void onFailure(Call<JSONResponse> call, Throwable t) {
-     *                 textView.setText(t.getMessage());
-     *
-     *             }
-     *         });
-     */
+    public void closeKeyboard() {
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
 
-    /**
-     * For database
-     *
-     * //Is on the main thread not a good idea!!!
-     * Creates the database
-     *         database = Room.databaseBuilder(getApplicationContext(), DrinksDatabase.class, "drinksDB")
-     *                 .allowMainThreadQueries()
-     *                 .build();
-     *
-     * create entity
-     * DrinkEntity drinkEntity = new DrinkEntity();
-     *
-     * set varibles for entity
-     *                 drinkEntity.setId(Integer.parseInt(jsonResponse.getDrinks().get(0).getIdDrink()));
-     *                 drinkEntity.setName(jsonResponse.getDrinks().get(0).getStrDrink());
-     *                 drinkEntity.setImageURL(jsonResponse.getDrinks().get(0).getStrDrinkThumb());
-     *
-     *Create entity to be deleted
-     *                 DrinkEntity entity = new DrinkEntity();
-     *                 entity.setId(Integer.parseInt(jsonResponse.getDrinks().get(0).getIdDrink()));
-     *                 database.drinkEntityDao().deleteDrink(entity);
-     *
-     *                 get list of all drinks favored
-     *                 List<DrinkEntity> drinkEntityList = database.drinkEntityDao().getDrinks();
-     *
-     */
+    }
 
 }

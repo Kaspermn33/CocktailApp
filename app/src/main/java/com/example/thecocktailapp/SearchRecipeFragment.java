@@ -3,6 +3,7 @@ package com.example.thecocktailapp;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,8 +25,10 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class SearchRecipeFragment extends Fragment {
-    RecyclerView recyclerView;
-    Drink[] cocktails;
+    private RecyclerView recyclerView;
+    private Drink[] cocktails;
+    private EditText searchField;
+    private Button searchButton;
 
     @Nullable
     @Override
@@ -37,41 +40,59 @@ public class SearchRecipeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Button searchButton = getView().findViewById(R.id.search_button);
-
+        searchButton = getView().findViewById(R.id.search_button);
+        searchField = getView().findViewById(R.id.searchField);
         recyclerView = getView().findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        searchField.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    search();
+                    return true;
+                }
+                return false;
+            }
+        });
+
+
 
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText searchField = getView().findViewById(R.id.searchField);
-                String searchValue = searchField.getText().toString();
-                Log.i("Info", "Search string: " + searchValue);
 
-                Call<JSONResponse> call = MainActivity.requestInterface.searchByName(searchValue);
-                call.enqueue(new Callback<JSONResponse>() {
-                    @Override
-                    public void onResponse(Call<JSONResponse> call, Response<JSONResponse> response) {
-                        List<Drink> drinks = response.body().getDrinks();
-
-                        if (drinks == null) {
-                            return;
-                        }
-
-                        Log.i("Info", "Search found: " + drinks.size() + " items");
-                        cocktails = new Drink[drinks.size()];
-                        drinks.toArray(cocktails);
-                        CocktailAdapter cocktailAdapter = new CocktailAdapter(cocktails, getContext());
-                        recyclerView.setAdapter(cocktailAdapter);
-                    }
-
-                    @Override
-                    public void onFailure(Call<JSONResponse> call, Throwable t) {
-                        Log.i("Error", t.getMessage());
-                    }
-                });
+                search();
             }
         });
+    }
+
+    private void search() {
+        String searchValue = searchField.getText().toString();
+        Log.i("Info", "Search string: " + searchValue);
+
+        Call<JSONResponse> call = MainActivity.requestInterface.searchByName(searchValue);
+        call.enqueue(new Callback<JSONResponse>() {
+            @Override
+            public void onResponse(Call<JSONResponse> call, Response<JSONResponse> response) {
+                List<Drink> drinks = response.body().getDrinks();
+
+                if (drinks == null) {
+                    return;
+                }
+
+                Log.i("Info", "Search found: " + drinks.size() + " items");
+                cocktails = new Drink[drinks.size()];
+                drinks.toArray(cocktails);
+                CocktailAdapter cocktailAdapter = new CocktailAdapter(cocktails, getContext());
+                recyclerView.setAdapter(cocktailAdapter);
+            }
+
+            @Override
+            public void onFailure(Call<JSONResponse> call, Throwable t) {
+                Log.i("Error", t.getMessage());
+            }
+        });
+        ((MainActivity)getActivity()).closeKeyboard();
     }
 }
