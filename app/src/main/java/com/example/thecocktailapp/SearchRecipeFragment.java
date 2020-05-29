@@ -26,9 +26,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class SearchRecipeFragment extends Fragment {
     private RecyclerView recyclerView;
-    private Drink[] cocktails;
     private EditText searchField;
     private Button searchButton;
+    private Drink[] cocktails;
 
     @Nullable
     @Override
